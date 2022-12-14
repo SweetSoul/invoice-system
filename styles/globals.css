@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@layer base {
+	input[type="number"]::-webkit-inner-spin-button,
+	input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+	}
+	input[type="number"] {
+		-moz-appearance: textfield;
+	}
+}
+@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap");
+
+.text-11 {
+	font-size: 11px;
+}
+
+.tracking-23 {
+	line-height: -0.23;
+}
+.tracking-25 {
+	line-height: -0.25;
+}
+
+.max-w-screen-60 {
+	max-width: 60vw;
+}
+
+.max-w-30 {
+	max-width: 30%;
+}
+
+.tracking-02 {
+	letter-spacing: 0.02em;
+}
+
+.react-datepicker__header {
+	padding: 0 !important;
+	border: none !important;
+}
+
+.react-datepicker__day-names {
+	display: none !important;
+}
+
+.react-datepicker__day--selected {
+	background: none !important;
+}
+
+.react-datepicker {
+	border: none !important;
+}
+
+input[aria-invalid="true"] {
+	border: 1px solid #ed5758;
+}
