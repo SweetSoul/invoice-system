@@ -4,6 +4,7 @@ import SideMenu from "./SideMenu/SideMenu";
 
 type Props = {
 	children: ReactNode;
+	alternative?: boolean;
 };
 
 const Layout: React.FC<Props> = (props) => {
@@ -25,8 +26,14 @@ const Layout: React.FC<Props> = (props) => {
 		<>
 			<div className={isDarkMode ? "dark" : ""}>
 				<SideMenu />
-				<main className='flex flex-col items-center pt-7 bg-link-water dark:bg-mirage min-h-screen w-screen'>
-					<div className='w-full max-w-screen-60'>{props.children}</div>
+				<main
+					className={`flex flex-col ${props.alternative ? "items-end" : "items-center"} pt-7 ${
+						props.alternative ? "bg-white" : "bg-link-water"
+					} dark:bg-mirage min-h-screen w-screen`}
+				>
+					<div className={`w-full ${props.alternative ? "max-w-screen-full pr-3" : "max-w-screen-60"}`}>
+						{props.children}
+					</div>
 				</main>
 			</div>
 		</>

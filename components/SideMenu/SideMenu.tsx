@@ -28,6 +28,11 @@ const SideMenu: React.FC = () => {
 			</div>
 			<div>
 				<div className='flex justify-center mb-4'>
+					<Link href='/tasks' className='text-white-lilac active:underline'>
+						Tasks
+					</Link>
+				</div>
+				<div className='flex justify-center mb-4'>
 					<DarkModeToggler />
 				</div>
 				<div className='w-full h-32 relative overflow-hidden grid place-items-center border-t-2 border-t-blue-clay'>

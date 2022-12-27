@@ -25,6 +25,7 @@ export default function Title({ children, as = "h1", className, label, color, id
 		className: titleClassName,
 		"aria-label": label ?? as === "h1" ? "Page title" : "Section title",
 		id,
+		title: typeof children === "string" ? children : label,
 	};
 
 	const Title = () => React.createElement(as, titleAttributes, children);

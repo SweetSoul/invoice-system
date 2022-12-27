@@ -11,7 +11,6 @@
 		-moz-appearance: textfield;
 	}
 }
-@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;500;600;700&display=swap");
 
 .text-11 {
 	font-size: 11px;
@@ -26,6 +25,10 @@
 
 .max-w-screen-60 {
 	max-width: 60vw;
+}
+
+.max-w-screen-full {
+	max-width: calc(100vw - 9rem - 12px);
 }
 
 .max-w-30 {
@@ -55,4 +58,21 @@
 
 input[aria-invalid="true"] {
 	border: 1px solid #ed5758;
+}
+
+.react-calendar__tile--now {
+	background-color: var(--InfluencerColor) !important;
+	color: white;
+}
+
+.react-calendar__tile--now:hover {
+	background-color: #7411adb7 !important;
+}
+.react-calendar__tile--active {
+	background-color: var(--cpBlue) !important;
+	color: white;
+}
+
+.react-calendar__tile--active:hover {
+	background-color: #004cceb7 !important;
 }

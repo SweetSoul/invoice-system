@@ -1,0 +1,44 @@
+[
+	{
+		"id": "1",
+		"date": "2022-12-31",
+		"title": "New Year's Eve",
+		"note": "Celebrate the new year with your friends and family.",
+		"type": "call"
+	},
+	{
+		"id": "2",
+		"date": "2022-12-25",
+		"title": "Christmas",
+		"note": "Celebrate the birth of Jesus Christ.",
+		"type": "initiate"
+	},
+	{
+		"id": "3",
+		"date": "2022-11-11",
+		"title": "Veterans Day",
+		"note": "Honor the veterans who have served the country.",
+		"type": "call"
+	},
+	{
+		"id": "4",
+		"date": "2022-10-31",
+		"title": "Halloween",
+		"note": "Celebrate the holiday with your friends and family.",
+		"type": "initiate"
+	},
+	{
+		"id": "5",
+		"date": "2022-09-06",
+		"title": "Labor Day",
+		"note": "Celebrate the contributions of workers to the strength, prosperity, and well-being of the country.",
+		"type": "call"
+	},
+	{
+		"id": "6",
+		"date": "2022-07-04",
+		"title": "Independence Day",
+		"note": "Celebrate the independence of the United States of America.",
+		"type": "initiate"
+	}
+]
