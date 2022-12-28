@@ -8,6 +8,9 @@ module.exports = {
       sans: ["var(--spartan-font)", 'sans-serif'],
     },
     extend: {
+      gridTemplateColumns: {
+        'tasks': 'minmax(0, 1fr) 42px minmax(0, 3fr)'
+      },
       colors: {
         'purple-slate': '#7c5dfa',
         'purple-mimosa': '#9278fe',

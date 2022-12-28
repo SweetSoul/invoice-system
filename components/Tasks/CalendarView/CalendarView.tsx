@@ -12,10 +12,11 @@ interface Props {
 }
 
 export default function CalendarView({ companies }: Props) {
-	const methods = useForm();
 	const [selectedDay, setSelectedDay] = useState<Date>(new Date());
-	const dayAfter = new Date(selectedDay);
-	dayAfter.setDate(dayAfter.getDate() + 1);
+	const [showOverdue, setShowOverdue] = useState(true);
+	const methods = useForm();
+	const endOfDay = new Date(selectedDay);
+	endOfDay.setHours(23, 59, 59, 999);
 
 	const handleChangeDay = (date: Date) => {
 		setSelectedDay(date);
@@ -48,8 +49,8 @@ export default function CalendarView({ companies }: Props) {
 				<div className='flex items-center bg-gray-100 border border-gray-300 rounded-tr-lg rounded-br-lg px-4 py-3 w-full'>
 					<Title as='h1' color='text-gray-700 mr-auto'>
 						Your Tasks{" "}
-						{`${selectedDay.getDay()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` ===
-						`${new Date().getDay()}${new Date().getMonth()}${new Date().getFullYear()}`
+						{`${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` ===
+						`${new Date().getDate()}${new Date().getMonth()}${new Date().getFullYear()}`
 							? "Today"
 							: `on ${formatDate(selectedDay, { hideYear: true, styleDay: true, fullMonthName: true })}`}
 					</Title>
@@ -58,15 +59,46 @@ export default function CalendarView({ companies }: Props) {
 			<div className='mt-8 flex'>
 				<div className='flex-shrink-0 flex-grow-0 basis-auto w-2/5'>
 					<ShipperCalendar events={tasksData} onSelectDay={handleChangeDay} />
+					<div className='flex justify-center items-center mt-4'>
+						{/** Toggle that will toggle showOverdue */}
+						<button
+							className={`p-1 rounded-lg text-gray-600 ${
+								showOverdue
+									? "bg-purple-mimosa hover:bg-gray-400 text-white"
+									: "bg-gray-400 hover:bg-purple-mimosa text-gray-400 hover:text-purple-mimosa"
+							}`}
+							onClick={() => setShowOverdue((prev) => !prev)}
+						>
+							<svg
+								xmlns='http://www.w3.org/2000/svg'
+								className='h-3 w-3'
+								fill='none'
+								viewBox='0 0 24 24'
+								stroke='currentColor'
+							>
+								<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M5 13l4 4L19 7' />
+							</svg>
+						</button>
+						<Subtitle color='text-gray-700 ml-2'>Show overdue</Subtitle>
+					</div>
 				</div>
 				<div className='flex-shrink-0 flex-grow-0 basis-auto w-3/5 pl-4 grid grid-cols-2 gap-2'>
 					{companies.map((company, index) => (
-						<div className='bg-gray-100 p-2 rounded-lg'>
+						<div className='bg-gray-100 p-2 rounded-lg' key={index}>
 							<Title as='h3' color='text-gray-700 truncate'>
 								{company}
 							</Title>
-							{tasksData.slice(0, index + 3).map((t) =>
-								new Date(t.date) < dayAfter ? (
+							{tasksData
+								.slice(0, index + 3)
+								.filter((t) =>
+									showOverdue
+										? new Date(t.date) <= endOfDay
+										: `${new Date(t.date).getDate()}${new Date(t.date).getMonth()}${new Date(
+												t.date
+										  ).getFullYear()}` ===
+										  `${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}`
+								)
+								.map((t) => (
 									<div
 										key={t.id}
 										className='text-center mt-3 group hover:bg-purple-mimosa cursor-pointer'
@@ -130,8 +162,7 @@ export default function CalendarView({ companies }: Props) {
 											</Subtitle>
 										)}
 									</div>
-								) : null
-							)}
+								))}
 						</div>
 					))}
 				</div>

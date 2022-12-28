@@ -67,6 +67,10 @@ input[aria-invalid="true"] {
 .react-calendar__tile--now:hover {
 	background-color: #7c5dfa !important;
 }
+
+.react-calendar__month-view__days__day--weekend {
+	color: #ed5758;
+}
 .react-calendar__tile--active {
 	background-color: #9278fe !important;
 	color: white;
