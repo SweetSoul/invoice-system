@@ -12,7 +12,7 @@ interface IProps {
 export default function ShipperCalendar(props: IProps) {
 	const selectedDay = useRef<Date | null>(null);
 	const selectedMonth = useRef<Date | null>(null);
-	const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
 	const handleChangeDay = (date: Date) => {
 		selectedDay.current = new Date(date);
@@ -49,8 +49,8 @@ export default function ShipperCalendar(props: IProps) {
 				return null;
 			}
 			return (
-				<div className='flex flex-col items-center justify-center'>
-					<div className='w-4 h-4 rounded-full bg-blue-500' />
+				<div className='flex flex-col items-center justify-center mb-'>
+					<div className='w-2 h-2 rounded-full bg-purple-mimosa group-hover:bg-purple-50' />
 				</div>
 			);
 		},
@@ -61,8 +61,8 @@ export default function ShipperCalendar(props: IProps) {
 	return (
 		<Calendar
 			tileContent={renderEvents}
-			tileClassName='font-sans font-normal'
-			className='border border-gray-500 rounded-lg p-2'
+			tileClassName='font-sans font-normal hover:bg-purple-slate hover:text-white group p-1'
+			className='bg-gray-100 rounded-lg p-2'
 			onClickDay={handleChangeDay}
 			next2Label={null}
 			prev2Label={null}

@@ -61,18 +61,25 @@ input[aria-invalid="true"] {
 }
 
 .react-calendar__tile--now {
-	background-color: var(--InfluencerColor) !important;
-	color: white;
+	text-decoration: underline;
 }
 
 .react-calendar__tile--now:hover {
-	background-color: #7411adb7 !important;
+	background-color: #7c5dfa !important;
 }
 .react-calendar__tile--active {
-	background-color: var(--cpBlue) !important;
+	background-color: #9278fe !important;
 	color: white;
 }
 
 .react-calendar__tile--active:hover {
-	background-color: #004cceb7 !important;
+	background-color: #7c5dfa !important;
+}
+.react-calendar__tile--active > div > div {
+	background-color: #e9e5fa !important;
+}
+
+.react-calendar__navigation {
+	display: flex;
+	justify-content: space-between;
 }
