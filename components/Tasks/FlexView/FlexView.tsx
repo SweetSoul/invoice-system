@@ -11,7 +11,7 @@ export default function FlexView({ companies }: Props) {
 	const methods = useForm();
 	return (
 		<>
-			<div className='-mt-5'>
+			<div>
 				<FormProvider {...methods}>
 					<TextInput
 						name='search'

@@ -24,7 +24,7 @@ export default function CalendarView({ companies }: Props) {
 
 	return (
 		<>
-			<div className='-mt-5'>
+			<div>
 				<FormProvider {...methods}>
 					<TextInput
 						name='search'
@@ -84,7 +84,7 @@ export default function CalendarView({ companies }: Props) {
 				<div className='flex-shrink-0 flex-grow-0 basis-auto w-3/5 pl-4 grid grid-cols-2 gap-2'>
 					{companies.map((company, index) => (
 						<div className='bg-gray-100 p-2 rounded-lg' key={index}>
-							<Title as='h3' color='text-gray-700 truncate'>
+							<Title as='h2' color='text-gray-700 truncate'>
 								{company}
 							</Title>
 							{tasksData

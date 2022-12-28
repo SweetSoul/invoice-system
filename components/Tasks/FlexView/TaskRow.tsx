@@ -30,7 +30,7 @@ export default function TaskRow({ company_name, limit }: Props) {
 				</svg>
 			</div>
 			<div>
-				<div className='grid grid-cols-4 w-full max-h-40 overflow-scroll'>
+				<div className='grid grid-cols-4 w-full max-h-40 overflow-y-auto'>
 					{tasksData.slice(0, limit ?? tasksData.length).map((t) => (
 						<div
 							className='w-auto cursor-pointer p-2 hover:bg-gray-600 flex items-center justify-center flex-col text-center group'
