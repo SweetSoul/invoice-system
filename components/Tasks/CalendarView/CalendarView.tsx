@@ -60,7 +60,6 @@ export default function CalendarView({ companies }: Props) {
 				<div className='flex-shrink-0 flex-grow-0 basis-auto w-2/5'>
 					<ShipperCalendar events={tasksData} onSelectDay={handleChangeDay} />
 					<div className='flex justify-center items-center mt-4'>
-						{/** Toggle that will toggle showOverdue */}
 						<button
 							className={`p-1 rounded-lg text-gray-600 ${
 								showOverdue
