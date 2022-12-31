@@ -50,7 +50,7 @@ export default function ShipperCalendar(props: IProps) {
 			}
 			return (
 				<div className='flex flex-col items-center justify-center mb-'>
-					<div className='w-2 h-2 rounded-full bg-purple-mimosa group-hover:bg-purple-50' />
+					<div className='w-2 h-2 rounded-full bg-indigo-400 group-hover:bg-indigo-50' />
 				</div>
 			);
 		},
@@ -61,8 +61,8 @@ export default function ShipperCalendar(props: IProps) {
 	return (
 		<Calendar
 			tileContent={renderEvents}
-			tileClassName='font-sans font-normal hover:bg-purple-slate hover:text-white group p-1'
-			className='bg-gray-100 rounded-lg p-2'
+			tileClassName='font-sans font-normal hover:bg-indigo-600 hover:text-white group p-1'
+			className={`bg-gray-100 rounded-lg p-2 ${props.className}`}
 			onClickDay={handleChangeDay}
 			next2Label={null}
 			prev2Label={null}

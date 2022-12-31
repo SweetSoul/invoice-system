@@ -3,24 +3,59 @@ import { FormProvider, useForm } from "react-hook-form";
 import formatDate from "../../../util/formatDate";
 import ShipperCalendar from "../../Calendar/calendar.component";
 import TextInput from "../../FormControls/TextInput/TextInput";
+import Popover from "../../Popover/Popover";
 import Subtitle from "../../Typography/Subtitle/Subtitle";
 import Title from "../../Typography/Title/Title";
-import tasksData from "../data.json";
 
 interface Props {
 	companies: string[];
+	tasks: Task[];
 }
 
-export default function CalendarView({ companies }: Props) {
+export interface Task {
+	id: string;
+	createdAt: Date;
+	title: string;
+	shipperId: string;
+	userId: string;
+	taskDate: Date;
+	taskType: TaskType;
+	taskStatus: TaskStatus;
+	note: string;
+	updatedAt: Date;
+	deletedAt: Date | null;
+}
+
+export enum TaskType {
+	"INITIATE_WITH_CONTACT" = "initiate_with_contact",
+	"FOLLOW_UP_CALL" = "follow_up_call",
+	"FOLLOW_UP_EMAIL" = "follow_up_email",
+	"FOLLOW_UP_SMS" = "follow_up_sms",
+}
+
+export enum TaskStatus {
+	"PENDING" = "pending",
+	"COMPLETED" = "completed",
+	"POSTPONED" = "postponed",
+	"DELETED" = "deleted",
+}
+
+export default function CalendarView({ companies, tasks }: Props) {
 	const [selectedDay, setSelectedDay] = useState<Date>(new Date());
 	const [showOverdue, setShowOverdue] = useState(true);
+	const [showCalendar, setShowCalendar] = useState(false);
 	const methods = useForm();
 	const endOfDay = new Date(selectedDay);
 	endOfDay.setHours(23, 59, 59, 999);
 
 	const handleChangeDay = (date: Date) => {
 		setSelectedDay(date);
+		setShowCalendar(false);
 	};
+
+	function handleToggleCalendar() {
+		setShowCalendar((prev) => !prev);
+	}
 
 	return (
 		<>
@@ -47,18 +82,34 @@ export default function CalendarView({ companies }: Props) {
 					</svg>
 				</button>
 				<div className='flex items-center bg-gray-100 border border-gray-300 rounded-tr-lg rounded-br-lg px-4 py-3 w-full'>
-					<Title as='h1' color='text-gray-700 mr-auto'>
-						Your Tasks{" "}
-						{`${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` ===
-						`${new Date().getDate()}${new Date().getMonth()}${new Date().getFullYear()}`
-							? "Today"
-							: `on ${formatDate(selectedDay, { hideYear: true, styleDay: true, fullMonthName: true })}`}
-					</Title>
+					<div className='flex gap-2'>
+						<Title as='h1' color='text-gray-700 mr-auto'>
+							Your Tasks{" "}
+						</Title>
+						<div
+							className='underline cursor-pointer relative'
+							onClick={handleToggleCalendar}
+							title='Click to toggle calendar'
+						>
+							<Title as='h1' color='text-gray-700 mr-auto' className='select-none'>
+								{`${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` ===
+								`${new Date().getDate()}${new Date().getMonth()}${new Date().getFullYear()}`
+									? "Today"
+									: `on ${formatDate(selectedDay, {
+											hideYear: true,
+											styleDay: true,
+											fullMonthName: true,
+									  })}`}
+							</Title>
+							<Popover show={showCalendar} placement='center-right'>
+								<ShipperCalendar events={tasks} onSelectDay={handleChangeDay} className='w-64' />
+							</Popover>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div className='mt-8 flex'>
 				<div className='flex-shrink-0 flex-grow-0 basis-auto w-2/5'>
-					<ShipperCalendar events={tasksData} onSelectDay={handleChangeDay} />
 					<div className='flex justify-center items-center mt-4'>
 						<button
 							className={`p-1 rounded-lg text-gray-600 ${
@@ -82,19 +133,19 @@ export default function CalendarView({ companies }: Props) {
 					</div>
 				</div>
 				<div className='flex-shrink-0 flex-grow-0 basis-auto w-3/5 pl-4 grid grid-cols-2 gap-2'>
-					{companies.map((company, index) => (
+					{companies?.map((company, index) => (
 						<div className='bg-gray-100 p-2 rounded-lg' key={index}>
 							<Title as='h2' color='text-gray-700 truncate'>
 								{company}
 							</Title>
-							{tasksData
+							{tasks
 								.slice(0, index + 3)
 								.filter((t) =>
 									showOverdue
-										? new Date(t.date) <= endOfDay
-										: `${new Date(t.date).getDate()}${new Date(t.date).getMonth()}${new Date(
-												t.date
-										  ).getFullYear()}` ===
+										? new Date(t.taskDate) <= endOfDay
+										: `${new Date(t.taskDate).getDate()}${new Date(
+												t.taskDate
+										  ).getMonth()}${new Date(t.taskDate).getFullYear()}` ===
 										  `${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}`
 								)
 								.map((t) => (
@@ -104,7 +155,7 @@ export default function CalendarView({ companies }: Props) {
 									>
 										<div className='flex items-center justify-center gap-4 p-2'>
 											<div className='w-9 h-9 flex-shrink-0 basis-auto flex items-center justify-center bg-purple-mimosa group-hover:bg-purple-50 rounded-full p-2'>
-												{t.type === "call" ? (
+												{t.taskType === TaskType.FOLLOW_UP_CALL ? (
 													<svg
 														stroke='currentColor'
 														fill='currentColor'
@@ -138,7 +189,7 @@ export default function CalendarView({ companies }: Props) {
 													{t.title}
 												</Title>
 												<Subtitle color='text-gray-500 group-hover:text-white-lilac'>
-													{new Date(t.date) < new Date() ? (
+													{new Date(t.taskDate) < new Date() ? (
 														<span>
 															<span className='text-red-600 group-hover:text-black'>
 																{"Overdue"}
@@ -148,7 +199,7 @@ export default function CalendarView({ companies }: Props) {
 													) : (
 														""
 													)}
-													{formatDate(t.date)}
+													{formatDate(t.taskDate)}
 												</Subtitle>
 											</div>
 										</div>

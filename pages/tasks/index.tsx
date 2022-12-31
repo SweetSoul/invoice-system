@@ -1,42 +1,64 @@
-import { useState } from "react";
 import Layout from "../../components/Layout";
-import CalendarView from "../../components/Tasks/CalendarView/CalendarView";
-import FlexView from "../../components/Tasks/FlexView/FlexView";
+import CalendarView, { Task, TaskStatus, TaskType } from "../../components/Tasks/CalendarView/CalendarView";
+import { faker } from "@faker-js/faker";
 
-export default function Tasks() {
-	const [view, setView] = useState<"flex" | "calendar">("flex");
-	const companies = [
-		"Company Name",
-		"Company Name 2",
-		"Company with a really long name to see if it will fit or do something else",
-	];
-
-	const handleViewChange = (newView: "flex" | "calendar") => {
-		setView(newView);
+export async function getServerSideProps() {
+	const res = await fetch("https://6040127af3abf00017785815.mockapi.io/api/v3/tasks", {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+	const tasks: Task[] = await res.json();
+	const companies = ["Apple", "Samsung", "3M", "Pepsico", "Coca-cola"];
+	return {
+		props: {
+			tasks,
+			companies,
+		},
 	};
+}
+
+export default function Tasks({ tasks, companies }) {
+	function mockFactory(): Partial<Task>[] {
+		const m: Partial<Task>[] = new Array(20).fill(0).map((_) => {
+			let shipperId = Math.floor(Math.random() * 5 + 1).toString();
+			let taskType = Object.values(TaskType)[Math.floor(Math.random() * Object.values(TaskType).length)];
+			let taskStatus = Object.values(TaskStatus)[Math.floor(Math.random() * Object.values(TaskStatus).length)];
+			let deletedAt = taskStatus === TaskStatus.DELETED ? new Date() : null;
+			return {
+				createdAt: new Date(),
+				title: faker.hacker.phrase(),
+				shipperId,
+				userId: shipperId,
+				taskDate: new Date(
+					Math.random() * (new Date(2022, 11, 31).getTime() - new Date(2022, 1, 1).getTime()) +
+						new Date(2022, 1, 1).getTime()
+				),
+				taskType,
+				taskStatus,
+				note: faker.hacker.phrase(),
+				updatedAt: new Date(),
+				deletedAt,
+			};
+		});
+		return m;
+	}
+
+	async function handleAddMock() {
+		const body = await mockFactory();
+		await fetch("https://6040127af3abf00017785815.mockapi.io/api/v3/tasks", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(body),
+		});
+	}
 
 	return (
 		<Layout alternative>
-			<div className='flex items-center justify-center'>
-				<button
-					className={`${
-						view === "flex" ? "bg-gray-300" : "bg-gray-100"
-					} hover:bg-gray-500 p-3 rounded-tl-lg rounded-bl-lg text-gray-600 hover:text-white`}
-					onClick={() => handleViewChange("flex")}
-				>
-					Flex View
-				</button>
-				<button
-					className={`${
-						view === "calendar" ? "bg-gray-300" : "bg-gray-100"
-					} hover:bg-gray-500 p-3 rounded-tr-lg rounded-br-lg text-gray-600 hover:text-white`}
-					onClick={() => handleViewChange("calendar")}
-				>
-					Calendar View
-				</button>
-			</div>
-
-			{view === "flex" ? <FlexView companies={companies} /> : <CalendarView companies={companies} />}
+			<CalendarView tasks={tasks} companies={companies} />
 		</Layout>
 	);
 }
