@@ -11,15 +11,16 @@ export async function getServerSideProps() {
 	});
 	const tasks: Task[] = await res.json();
 	const companies = ["Apple", "Samsung", "3M", "Pepsico", "Coca-cola"];
+
 	return {
 		props: {
-			tasks,
 			companies,
+			tasks,
 		},
 	};
 }
 
-export default function Tasks({ tasks, companies }) {
+export default function Tasks({ companies, tasks }) {
 	function mockFactory(): Partial<Task>[] {
 		const m: Partial<Task>[] = new Array(20).fill(0).map((_) => {
 			let shipperId = Math.floor(Math.random() * 5 + 1).toString();
@@ -58,7 +59,7 @@ export default function Tasks({ tasks, companies }) {
 
 	return (
 		<Layout alternative>
-			<CalendarView tasks={tasks} companies={companies} />
+			<CalendarView companies={companies} tasks={tasks} />
 		</Layout>
 	);
 }

@@ -29,14 +29,18 @@ export default function Popover({ show, placement, setShow, children }: PopoverP
 		verticalClass = `${verticalPlacement === "top" ? "bottom" : "top"}-120`;
 	}
 	return (
-		<div
-			className={`absolute ${verticalClass} ${horizontalClass} bg-white rounded-md shadow-lg ${
-				show ? "block" : "hidden"
-			}`}
-		>
+		<div className={`absolute ${verticalClass} ${horizontalClass} shadow-lg ${show ? "block" : "hidden"}`}>
 			<div onClick={() => setShow?.(false)} className='fixed w-screen h-screen z-0' />
 			<div
-				className={`absolute z-0 ${
+				className={`w-0 h-0 border-4 border-transparent border-b-8 border-b-gray-400 ${
+					verticalPlacement === "center"
+						? "rotate-[-90deg]"
+						: `${verticalPlacement === "top" ? "rotate-45" : "-rotate-45"}`
+				} ${
+					horizontalPlacement === "center"
+						? "rotate-45"
+						: `${horizontalPlacement === "left" ? "-rotate-45" : "rotate-45"}`
+				} absolute z-0 ${
 					verticalPlacement === "center"
 						? "top-1/2 transform -translate-y-1/2"
 						: `${verticalPlacement === "top" ? "bottom" : "top"}-4`
@@ -45,20 +49,8 @@ export default function Popover({ show, placement, setShow, children }: PopoverP
 						? "left-1/2 transform -translate-x-1/2"
 						: `${horizontalPlacement === "left" ? "right" : "left"}-4`
 				}`}
-			>
-				<div
-					className={`w-3 h-3 bg-gray-400 ${
-						verticalPlacement === "center"
-							? "rotate-45"
-							: `${verticalPlacement === "top" ? "rotate-45" : "-rotate-45"}`
-					} ${
-						horizontalPlacement === "center"
-							? "rotate-45"
-							: `${horizontalPlacement === "left" ? "-rotate-45" : "rotate-45"}`
-					}`}
-				></div>
-			</div>
-			<div className='z-10 relative'>{children}</div>
+			/>
+			<div className='z-50 relative bg-gray-100 rounded-md'>{children}</div>
 		</div>
 	);
 }

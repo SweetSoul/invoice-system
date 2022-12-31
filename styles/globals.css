@@ -109,17 +109,17 @@ input[aria-invalid="true"] {
 }
 
 .left-4 {
-	left: -6px;
+	left: -8px;
 }
 
 .right-4 {
-	right: -6px;
+	right: -8px;
 }
 
 .top-4 {
-	top: -6px;
+	top: -8px;
 }
 
 .bottom-4 {
-	bottom: -6px;
+	bottom: -8px;
 }

@@ -21,7 +21,7 @@ const SideMenu: React.FC = () => {
 	};
 
 	return (
-		<div className='fixed z-50 left-0 top-0 h-full w-36 bg-blue-dark rounded-r-3xl flex flex-col justify-between'>
+		<header className='fixed z-20 left-0 top-0 h-full w-36 bg-blue-dark rounded-r-3xl flex flex-col justify-between'>
 			<div className='bg-purple-slate w-full h-32 rounded-r-3xl relative overflow-hidden grid place-items-center'>
 				<div className='w-full h-16 absolute z-0 bottom-0 rounded-tl-3xl bg-purple-mimosa' />
 				<Image src='/assets/logo.svg' alt='Bask Health Logo' width={56} height={52} className='relative z-10' />
@@ -58,7 +58,7 @@ const SideMenu: React.FC = () => {
 					)}
 				</div>
 			</div>
-		</div>
+		</header>
 	);
 };
 
