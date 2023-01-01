@@ -31,7 +31,11 @@ const Layout: React.FC<Props> = (props) => {
 						props.alternative ? "bg-white" : "bg-link-water"
 					} dark:bg-mirage min-h-screen w-screen`}
 				>
-					<div className={`w-full ${props.alternative ? "max-w-screen-full pr-3" : "max-w-screen-60"}`}>
+					<div
+						className={`w-full overflow-hidden ${
+							props.alternative ? "max-w-screen-full pr-3" : "max-w-screen-60"
+						}`}
+					>
 						{props.children}
 					</div>
 				</main>

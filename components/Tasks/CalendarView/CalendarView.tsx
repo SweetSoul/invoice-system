@@ -139,7 +139,7 @@ export default function CalendarView({ companies, tasks }: Props) {
 					<TextInput
 						name='search'
 						type='text'
-						className='bg-transparent border-t-0 border-l-0 border-r-0 rounded-none border-b border-b-gray-300'
+						className='bg-transparent border-t-0 border-l-0 border-r-0 rounded-none border-b border-b-gray-300 max-w-lg'
 						placeholder='🔍 Search'
 					/>
 				</FormProvider>

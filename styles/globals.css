@@ -12,6 +12,10 @@
 	}
 }
 
+body {
+	overflow-x: hidden;
+}
+
 .text-11 {
 	font-size: 11px;
 }
