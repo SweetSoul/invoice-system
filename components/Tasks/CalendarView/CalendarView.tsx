@@ -185,8 +185,8 @@ export default function CalendarView({ companies, tasks }: Props) {
 			</div>
 			<div className='mt-4 flex gap-2 items-center'>
 				<FormProvider {...calendarMethods}>
-					<CalendarFilters config={filters} setConfig={setFilters} />
-					<CalendarSearch />
+					<CalendarFilters config={filters} setConfig={setFilters} mini={useMiniFilters} />
+					<CalendarSearch mini={useMiniFilters} />
 				</FormProvider>
 			</div>
 			<HorizontalScrollable className='mt-8 flex gap-2 max-w-full overflow-x-auto'>
