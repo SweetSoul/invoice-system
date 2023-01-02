@@ -13,7 +13,7 @@ export default function CalendarFilters<T>({ config, setConfig, mini }: Props<T>
 
 	function Filters() {
 		return (
-			<div className='flex gap-2 items-center p-4'>
+			<div className={`flex gap-2 items-center ${mini ? "p-4" : "px-1"}`}>
 				{Array.isArray(Object.entries(config)) &&
 					Object.entries(config).map(([key, value]) => {
 						return (

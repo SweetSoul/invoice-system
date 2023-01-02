@@ -186,13 +186,13 @@ export default function CalendarView({ companies, tasks }: Props) {
 					</div>
 				</div>
 			</div>
-			<div className='mt-4 flex gap-2 items-center'>
+			<div className='mt-5 flex gap-2 items-center'>
 				<FormProvider {...calendarMethods}>
 					<CalendarFilters config={filters} setConfig={setFilters} mini={useMiniFilters} />
 					<CalendarSearch mini={useMiniFilters} setSearch={setSearchFilter} />
 				</FormProvider>
 			</div>
-			<HorizontalScrollable className='mt-8 flex gap-2 max-w-full overflow-x-auto'>
+			<HorizontalScrollable className='mt-2 flex gap-2 max-w-full overflow-x-auto'>
 				{companies.map((c, index) => {
 					const filteredTasks = tasks?.filter((t) => applyTaskFilters(t, `${index + 1}`, c));
 

@@ -15,7 +15,7 @@ export default function CalendarSearch({ mini, setSearch }: Props) {
 
 	function SearchInput() {
 		return (
-			<div className='flex gap-2 items-center p-4'>
+			<div className={`flex gap-2 items-center ${mini ? "p-4" : "px-1"}`}>
 				<TextInput
 					name='calendarSearch'
 					type='text'
