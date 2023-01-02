@@ -1,15 +1,17 @@
-import { useState } from "react";
-import { useFormContext } from "react-hook-form";
+import { useState, useEffect } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
+import useDebounce from "../../../../hooks/useDebounce";
 import TextInput from "../../../FormControls/TextInput/TextInput";
 import Popover from "../../../Popover/Popover";
 
 interface Props {
 	mini?: boolean;
+	setSearch: (value: string) => void;
 }
 
-export default function CalendarSearch({ mini }: Props) {
+export default function CalendarSearch({ mini, setSearch }: Props) {
 	const [showSearch, setShowSearch] = useState(false);
-	const { setValue } = useFormContext();
+	const { getValues } = useFormContext();
 
 	function SearchInput() {
 		return (
@@ -17,15 +19,23 @@ export default function CalendarSearch({ mini }: Props) {
 				<TextInput
 					name='calendarSearch'
 					type='text'
-					placeholder='Search by company name or task title'
+					placeholder='Filter by company name or task title'
 					className='w-80'
 				/>
-				<button
-					onClick={() => setValue("calendarSearch", "")}
-					className='px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 text-sm'
-				>
-					{mini ? "Clear" : "Clear search"}
-				</button>
+				<div className='flex gap-2 '>
+					<button
+						onClick={() => setSearch(getValues("calendarSearch"))}
+						className='px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-800 text-sm text-white'
+					>
+						Apply
+					</button>
+					<button
+						onClick={() => setSearch("")}
+						className='px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-400 text-sm'
+					>
+						Clear
+					</button>
+				</div>
 			</div>
 		);
 	}

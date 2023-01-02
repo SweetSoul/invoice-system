@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { FormProvider, useForm } from "react-hook-form";
+import { FormProvider, useForm, useWatch } from "react-hook-form";
 import useDebounce from "../../../hooks/useDebounce";
 import formatDate from "../../../util/formatDate";
 import ShipperCalendar from "../../Calendar/calendar.component";
@@ -51,6 +51,10 @@ interface Filters {
 	show_postponed?: boolean;
 }
 
+interface CalendarForm {
+	calendarSearch: string;
+}
+
 export default function CalendarView({ companies, tasks }: Props) {
 	const [selectedDay, setSelectedDay] = useState<Date>(new Date());
 	const [filters, setFilters] = useState<Filters>({
@@ -60,10 +64,9 @@ export default function CalendarView({ companies, tasks }: Props) {
 	});
 	const [showCalendar, setShowCalendar] = useState(false);
 	const [useMiniFilters, setUseMiniFilters] = useState(false);
+	const [searchFilter, setSearchFilter] = useState("");
 	const searchMethods = useForm();
-	const calendarMethods = useForm();
-	const calendarSearch = calendarMethods.watch("calendarSearch");
-	const debouncedSearch = useDebounce(calendarSearch, 500);
+	const calendarMethods = useForm<CalendarForm>();
 	const endOfDay = new Date(selectedDay);
 	endOfDay.setHours(23, 59, 59, 999);
 
@@ -81,11 +84,11 @@ export default function CalendarView({ companies, tasks }: Props) {
 		if (companyId !== task.shipperId) {
 			return false;
 		}
-		if (debouncedSearch) {
+		if (searchFilter) {
 			if (
-				task.title.toLowerCase().includes(debouncedSearch?.toLowerCase()) ||
-				task.note.toLowerCase().includes(debouncedSearch?.toLowerCase()) ||
-				companyName.toLowerCase().includes(debouncedSearch?.toLowerCase())
+				task.title.toLowerCase().includes(searchFilter?.toLowerCase()) ||
+				task.note.toLowerCase().includes(searchFilter?.toLowerCase()) ||
+				companyName.toLowerCase().includes(searchFilter?.toLowerCase())
 			) {
 				showTask = true;
 			} else {
@@ -186,7 +189,7 @@ export default function CalendarView({ companies, tasks }: Props) {
 			<div className='mt-4 flex gap-2 items-center'>
 				<FormProvider {...calendarMethods}>
 					<CalendarFilters config={filters} setConfig={setFilters} mini={useMiniFilters} />
-					<CalendarSearch mini={useMiniFilters} />
+					<CalendarSearch mini={useMiniFilters} setSearch={setSearchFilter} />
 				</FormProvider>
 			</div>
 			<HorizontalScrollable className='mt-8 flex gap-2 max-w-full overflow-x-auto'>
