@@ -1,36 +1,34 @@
 import { useCallback, useRef, useState } from "react";
 import { Calendar, CalendarTileProperties, ViewCallbackProperties } from "react-calendar";
 
-interface IProps {
-	events: any[];
+interface Props {
+	tasks: any[];
 	className?: string;
 	onSelectDay?: (date: Date) => void;
 	onSelectMonth?: (date: Date) => void;
 	isLoading?: boolean;
 }
 
-export default function ShipperCalendar(props: IProps) {
+export default function ShipperCalendar({ tasks, className, onSelectDay, onSelectMonth }: Props) {
 	const selectedDay = useRef<Date | null>(null);
 	const selectedMonth = useRef<Date | null>(null);
 	const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
 	const handleChangeDay = (date: Date) => {
 		selectedDay.current = new Date(date);
-		props.onSelectDay?.(new Date(date));
+		onSelectDay?.(new Date(date));
 		setSelectedDate(date);
 	};
 
 	const handleChangeMonth = (data: ViewCallbackProperties | Date) => {
 		if ((data as ViewCallbackProperties)?.activeStartDate) {
-			props.onSelectMonth?.(new Date((data as ViewCallbackProperties).activeStartDate));
+			onSelectMonth?.(new Date((data as ViewCallbackProperties).activeStartDate));
 			selectedMonth.current = new Date((data as ViewCallbackProperties).activeStartDate);
-			setSelectedDate(undefined);
 			return;
 		}
 		if (data as Date) {
-			props.onSelectMonth?.(new Date(data as Date));
+			onSelectMonth?.(new Date(data as Date));
 			selectedMonth.current = new Date(data as Date);
-			setSelectedDate(undefined);
 		}
 	};
 
@@ -39,13 +37,11 @@ export default function ShipperCalendar(props: IProps) {
 			const day = date.getDate();
 			const month = date.getMonth();
 			const year = date.getFullYear();
-			const events = props.events.filter((event) => {
-				const eventDate = new Date(event.date);
-				return (
-					eventDate.getDate() === day && eventDate.getMonth() === month && eventDate.getFullYear() === year
-				);
+			const filteredTasks = tasks.filter((task) => {
+				const taskDate = new Date(task.date);
+				return taskDate.getDate() === day && taskDate.getMonth() === month && taskDate.getFullYear() === year;
 			});
-			if (events.length === 0) {
+			if (filteredTasks.length === 0) {
 				return null;
 			}
 			return (
@@ -55,19 +51,18 @@ export default function ShipperCalendar(props: IProps) {
 			);
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[props.events, selectedMonth.current, selectedDay.current]
+		[tasks, selectedMonth.current, selectedDay.current]
 	);
 
 	return (
 		<Calendar
 			tileContent={renderEvents}
 			tileClassName='font-sans font-normal hover:bg-indigo-600 hover:text-white group p-1'
-			className={`bg-gray-100 rounded-lg p-2 ${props.className}`}
+			className={`bg-gray-100 rounded-lg p-2 ${className}`}
 			onClickDay={handleChangeDay}
 			next2Label={null}
 			prev2Label={null}
-			minDetail='month'
-			onActiveStartDateChange={handleChangeMonth}
+			minDetail='year'
 			onClickMonth={handleChangeMonth}
 			value={selectedDate || null}
 			calendarType='US'

@@ -1,6 +1,5 @@
-import { useState, useMemo, useEffect } from "react";
-import { FormProvider, useForm, useWatch } from "react-hook-form";
-import useDebounce from "../../../hooks/useDebounce";
+import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import formatDate from "../../../util/formatDate";
 import ShipperCalendar from "../../Calendar/calendar.component";
 import TextInput from "../../FormControls/TextInput/TextInput";
@@ -58,11 +57,11 @@ interface CalendarForm {
 export default function CalendarView({ companies, tasks }: Props) {
 	const [selectedDay, setSelectedDay] = useState<Date>(new Date());
 	const [filters, setFilters] = useState<Filters>({
-		show_overdue: false,
+		show_overdue: true,
 		show_completed: false,
 		show_postponed: false,
 	});
-	const [showCalendar, setShowCalendar] = useState(false);
+	const [showCalendar, setShowCalendar] = useState<boolean>();
 	const [useMiniFilters, setUseMiniFilters] = useState(false);
 	const [searchFilter, setSearchFilter] = useState("");
 	const searchMethods = useForm();
@@ -106,9 +105,12 @@ export default function CalendarView({ companies, tasks }: Props) {
 		} else if (
 			`${new Date(task.taskDate).getDate()}${new Date(task.taskDate).getMonth()}${new Date(
 				task.taskDate
-			).getFullYear()}` === `${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}`
+			).getFullYear()}` === `${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` ||
+			(filters.show_overdue && new Date(task.taskDate) <= endOfDay)
 		) {
 			showTask = true;
+		} else {
+			showTask = false;
 		}
 		return showTask;
 	}
@@ -164,23 +166,21 @@ export default function CalendarView({ companies, tasks }: Props) {
 						<Title as='h1' color='text-gray-700 mr-auto'>
 							Your Tasks{" "}
 						</Title>
-						<div
-							className='underline cursor-pointer relative'
-							onClick={handleToggleCalendar}
-							title='Click to toggle calendar'
-						>
-							<Title as='h1' color='text-gray-700 mr-auto' className='select-none'>
-								{`${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` ===
-								`${new Date().getDate()}${new Date().getMonth()}${new Date().getFullYear()}`
-									? "Today"
-									: `on ${formatDate(selectedDay, {
-											hideYear: true,
-											styleDay: true,
-											fullMonthName: true,
-									  })}`}
-							</Title>
+						<div className='cursor-pointer relative' title='Click to toggle calendar'>
+							<button onClick={handleToggleCalendar}>
+								<Title as='h1' color='text-gray-700 mr-auto' className='select-none underline'>
+									{`${selectedDay.getDate()}${selectedDay.getMonth()}${selectedDay.getFullYear()}` ===
+									`${new Date().getDate()}${new Date().getMonth()}${new Date().getFullYear()}`
+										? "Today"
+										: `on ${formatDate(selectedDay, {
+												hideYear: true,
+												styleDay: true,
+												fullMonthName: true,
+										  })}`}
+								</Title>
+							</button>
 							<Popover show={showCalendar} placement='center-right'>
-								<ShipperCalendar events={tasks} onSelectDay={handleChangeDay} className='w-64' />
+								<ShipperCalendar tasks={tasks} onSelectDay={handleChangeDay} className='w-64' />
 							</Popover>
 						</div>
 					</div>

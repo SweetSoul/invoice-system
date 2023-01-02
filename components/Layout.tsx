@@ -32,7 +32,7 @@ const Layout: React.FC<Props> = (props) => {
 					} dark:bg-mirage min-h-screen w-screen`}
 				>
 					<div
-						className={`w-full overflow-hidden ${
+						className={`w-full overflow-hidden min-h-screen ${
 							props.alternative ? "max-w-screen-full pr-3" : "max-w-screen-60"
 						}`}
 					>

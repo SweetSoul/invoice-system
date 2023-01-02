@@ -1,6 +1,6 @@
 import React from "react";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLHeadingElement> {
 	id?: string;
 	as?: "h1" | "h2" | "h3" | "h4";
 	className?: string;

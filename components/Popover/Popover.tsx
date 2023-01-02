@@ -30,7 +30,7 @@ export default function Popover({ show, placement, setShow, children }: PopoverP
 	}
 	return (
 		<div className={`absolute ${verticalClass} ${horizontalClass} shadow-lg ${show ? "block" : "hidden"}`}>
-			<div onClick={() => setShow?.(false)} className='fixed w-screen h-screen z-0' />
+			<div onClick={() => setShow?.(false)} className='fixed w-screen h-screen z-0 top-0 bottom-0' />
 			<div
 				className={`w-0 h-0 border-4 border-transparent border-b-8 border-b-gray-400 ${
 					verticalPlacement === "center"

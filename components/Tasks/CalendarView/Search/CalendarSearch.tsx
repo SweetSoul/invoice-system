@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
-import useDebounce from "../../../../hooks/useDebounce";
+import { useState } from "react";
+import { useFormContext } from "react-hook-form";
 import TextInput from "../../../FormControls/TextInput/TextInput";
 import Popover from "../../../Popover/Popover";
 
@@ -11,7 +10,7 @@ interface Props {
 
 export default function CalendarSearch({ mini, setSearch }: Props) {
 	const [showSearch, setShowSearch] = useState(false);
-	const { getValues } = useFormContext();
+	const { getValues, setValue } = useFormContext();
 
 	function SearchInput() {
 		return (
@@ -24,7 +23,10 @@ export default function CalendarSearch({ mini, setSearch }: Props) {
 				/>
 				<div className='flex gap-2 '>
 					<button
-						onClick={() => setSearch(getValues("calendarSearch"))}
+						onClick={() => {
+							setSearch(getValues("calendarSearch"));
+							setValue("calendarSearch", "");
+						}}
 						className='px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-800 text-sm text-white'
 					>
 						Apply
