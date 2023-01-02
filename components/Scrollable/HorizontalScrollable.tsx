@@ -26,6 +26,12 @@ export default function HorizontalScrollable({ children, className }: Props) {
 		};
 
 		const handleWheel = (event: WheelEvent) => {
+			if (
+				(div.scrollLeft === 0 && event.deltaY < 0) ||
+				(div.scrollLeft === div.scrollWidth - div.clientWidth && event.deltaY > 0)
+			) {
+				return;
+			}
 			event.preventDefault();
 			div.scrollLeft += event.deltaY;
 		};

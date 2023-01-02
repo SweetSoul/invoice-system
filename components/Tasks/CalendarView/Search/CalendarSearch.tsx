@@ -35,7 +35,9 @@ export default function CalendarSearch({ mini }: Props) {
 				<div className='relative max-w-fit' title='Click to see filters'>
 					<button
 						onClick={() => setShowSearch((prev) => !prev)}
-						className='bg-gray-300 hover:bg-gray-500 hover:text-white p-2 rounded-lg'
+						className={`${
+							showSearch ? "bg-gray-500 text-white" : "bg-gray-300"
+						} hover:bg-gray-500 hover:text-white p-2 rounded-lg group`}
 					>
 						<svg
 							stroke='currentColor'

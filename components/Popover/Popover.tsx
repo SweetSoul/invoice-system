@@ -36,10 +36,6 @@ export default function Popover({ show, placement, setShow, children }: PopoverP
 					verticalPlacement === "center"
 						? "rotate-[-90deg]"
 						: `${verticalPlacement === "top" ? "rotate-45" : "-rotate-45"}`
-				} ${
-					horizontalPlacement === "center"
-						? "rotate-45"
-						: `${horizontalPlacement === "left" ? "-rotate-45" : "rotate-45"}`
 				} absolute z-0 ${
 					verticalPlacement === "center"
 						? "top-1/2 transform -translate-y-1/2"

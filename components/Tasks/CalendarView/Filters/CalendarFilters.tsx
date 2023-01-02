@@ -56,10 +56,12 @@ export default function CalendarFilters<T>({ config, setConfig, mini }: Props<T>
 				<div className='relative max-w-fit' title='Click to see filters'>
 					<button
 						onClick={() => setShowFilters((prev) => !prev)}
-						className='bg-gray-300 hover:bg-gray-500 p-2 rounded-lg group'
+						className={`${
+							showFilters ? "bg-gray-500" : "bg-gray-300"
+						} hover:bg-gray-500 p-2 rounded-lg group`}
 					>
 						<svg
-							className='stroke-black group-hover:stroke-white'
+							className={`group-hover:stroke-white${showFilters ? " stroke-white" : " stroke-black"}`}
 							fill='none'
 							strokeWidth='1.5'
 							viewBox='0 0 24 24'
